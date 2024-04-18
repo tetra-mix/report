@@ -99,7 +99,7 @@ void Germany(HDC hdc, int left, int top) {
 ```
 
 ### スクリーンショット
-![国旗](flag.png)
+<img src="flag.png" width="560px">
 
 
 ## 演習２
@@ -194,10 +194,14 @@ case WM_PAINT:
   }
   break;
  ```
-
+<br>
+<br>
+<br>
+<br>
+<br>
 
 ### スクリーンショット
-![名前](name.png)
+<img src="name.png" width="400px">
 
 ## 学んだこと・感想など
 GUIアプリケーションを作るためには、イベントごとに処理を登録していき作成するということがわかりました。このようなアプリを作る際には変数のスコープにより注意したいなと思いました。
