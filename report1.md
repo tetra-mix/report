@@ -98,8 +98,39 @@
 
 
 ## 演習２
-色を 3 色以上，フォントを 3 種類以上，フォントサイズを 3 種類以上用いて，自分の氏名を派手に表示せよ。なお，フォントは c:\Windows\Fonts にあるファイルを参照のこと。
+色を 3 色以上，フォントを 3 種類以上，フォントサイズを 3 種類以上用いて，自分の氏名を派手に表示せよ。
+なお，フォントは c:\Windows\Fonts にあるファイルを参照のこと。
+>
+>
+> SetBkMode(hdc, TRANSPARENT);
+  SetTextColor(hdc, RGB(100, 200, 105));
+  SelectObject(hdc, yoshi);
+  lstrcpy(str, TEXT("吉"));
+  TextOut(hdc, 1000, 120, str, lstrlen(str));
 
-ワードアート的な感じで書く
+            SetBkMode(hdc, TRANSPARENT);
+            SetTextColor(hdc, RGB(240, 128, 12));
+            SelectObject(hdc, taka);
+            lstrcpy(str, TEXT("髙"));
+            TextOut(hdc, 1000, 200, str, lstrlen(str));
+
+            SetBkMode(hdc, TRANSPARENT);
+            SetTextColor(hdc, RGB(72, 61, 139));
+            SelectObject(hdc, ryou);
+            lstrcpy(str, TEXT("僚"));
+            TextOut(hdc, 1210, 415, str, lstrlen(str));
+
+            SetBkMode(hdc, TRANSPARENT);
+            SetTextColor(hdc, RGB(255, 0, 0));
+            SelectObject(hdc, ma);
+            lstrcpy(str, TEXT("眞"));
+            TextOut(hdc, 1300, 655, str, lstrlen(str));
+
+>
+>
+>
+>
+### 実行画像
+![名前](name.png)
 
 ## 学んだこと・感想など

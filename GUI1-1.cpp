@@ -18,9 +18,10 @@ LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 //グローバル宣言 文字用
-HFONT font1;
-HFONT font2;
-HFONT font3;
+HFONT yoshi;
+HFONT taka;
+HFONT ryou;
+HFONT ma;
 TCHAR str[100];
 
 //国旗関数のプロタイプ宣言
@@ -156,29 +157,35 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         }
         break;
     case WM_CREATE:
-        font1 = CreateFont(50, 30, 0, 0, FW_DONTCARE,
+        yoshi = CreateFont(200, 100, 45, 0, FW_DONTCARE,
                            FALSE, FALSE, FALSE, DEFAULT_CHARSET,
                            OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
                            DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE,
                            TEXT("HG行書体"));
 
-        font2 = CreateFont(80, 50, 180, 0, FW_DONTCARE,
+        taka = CreateFont(700, 200, 90, 0, FW_DONTCARE,
                            FALSE, FALSE, FALSE, DEFAULT_CHARSET,
                            OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
                            DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE,
                            TEXT("HG創英角ポップ体"));
 
-        font3 = CreateFont(50, 30, 0, 45, FW_DONTCARE,
+        ryou = CreateFont(40, 30, 360, 360, FW_DONTCARE,
                            TRUE, TRUE, FALSE, DEFAULT_CHARSET,
                            OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
                            DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE,
                            TEXT("游ゴシック"));
+        ma = CreateFont(50, 30, 90, 50, FW_DONTCARE,
+                            TRUE, TRUE, FALSE, DEFAULT_CHARSET,
+                            OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
+                            DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE,
+                            TEXT("BIZ UDPゴシック"));
         break;
 
     case WM_CLOSE:
-        DeleteObject(font1);
-        DeleteObject(font2);
-        DeleteObject(font3);
+        DeleteObject(yoshi);
+        DeleteObject(taka);
+        DeleteObject(ryou);
+        DeleteObject(ma);
         DestroyWindow(hWnd);
         break;
 
@@ -194,22 +201,27 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
             SetBkMode(hdc, TRANSPARENT);
             SetTextColor(hdc, RGB(100, 200, 105));
-            SelectObject(hdc, font1);
-            lstrcpy(str, TEXT("吉髙 僚眞"));
-            TextOut(hdc, 10, 600, str, lstrlen(str));
+            SelectObject(hdc, yoshi);
+            lstrcpy(str, TEXT("吉"));
+            TextOut(hdc, 1000, 120, str, lstrlen(str));
 
             SetBkMode(hdc, TRANSPARENT);
-            SetTextColor(hdc, RGB(255, 105, 0));
-            SelectObject(hdc, font2);
-            lstrcpy(str, TEXT("吉髙 僚眞"));
-            TextOut(hdc, 10, 800, str, lstrlen(str));
+            SetTextColor(hdc, RGB(240, 128, 12));
+            SelectObject(hdc, taka);
+            lstrcpy(str, TEXT("髙"));
+            TextOut(hdc, 1000, 200, str, lstrlen(str));
 
             SetBkMode(hdc, TRANSPARENT);
-            SetTextColor(hdc, RGB(0, 0, 255));
-            SelectObject(hdc, font3);
-            lstrcpy(str, TEXT("吉髙 僚眞"));
-            TextOut(hdc, 600, 600, str, lstrlen(str));
+            SetTextColor(hdc, RGB(72, 61, 139));
+            SelectObject(hdc, ryou);
+            lstrcpy(str, TEXT("僚"));
+            TextOut(hdc, 1210, 415, str, lstrlen(str));
 
+            SetBkMode(hdc, TRANSPARENT);
+            SetTextColor(hdc, RGB(255, 0, 0));
+            SelectObject(hdc, ma);
+            lstrcpy(str, TEXT("眞"));
+            TextOut(hdc, 1300, 655, str, lstrlen(str));
 
             
 
