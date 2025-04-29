@@ -203,3 +203,206 @@ void io_init(void) //IO ポート設定
 クロックソース×10 = 32
 
 10 ->カウンタトップ
+
+### 4.3処理間隔の変更
+1. PD0 から 20us 毎に H,L を繰り返す信号を出力するプログラムに変し、オシロスコープで動作を確認しなさい。（パラメータ OCR0A,CS02,CS01CS00 を変更する）。また High レベル幅、LOW レベル幅を確認しなさい。
+```c
+#include <asf.h> //ctc.c
+void io_init(void);
+void timer0_ctcmode_init(uint8_t top);
+int main (void)
+{
+	io_init(); //IO ポート設定
+	timer0_ctcmode_init( 50 ); //タイマ／カウンタ 0ＣＴＣモード割り込み設定 <==　ここを変更
+	sei(); //割り込み許可
+	while(1); //通常処理
+	return 0;
+}
+ISR(TIMER0_COMPA_vect) //タイマ／カウンタ 0 割り込みサービスルーチン
+{ //TIMER0_COMPA_vect は割り込みベクタ
+	cli(); //多重割り込み禁止
+	PORTD ^= 0b00000001;
+	// +---- PD0 の出力を反転
+	sei(); //割り込み許可
+}
+void timer0_ctcmode_init(uint8_t top) //タイマ／カウンタ 0 ＣＴＣモード割り込み設定
+{
+	// タイマ／カウンタ 0 比較レジスタ A
+	OCR0A = top; //タイマ／カウンタ 0 最大値
+	// タイマ／カウンタ 0 制御レジスタ A
+	TCCR0A = 0b00000010;
+	// || ++ WGM01 WGM00 CTC モード
+	// ++-------COM0A1 COM0A0 OC0A 端子出力 OFF
+	// タイマ／カウンタ 0 制御レジスタ B
+	TCCR0B = 0b00000010;  
+	// | |+++ CS02 CS01 CS00 プリスケーラ 8 分周  <--ここを変更
+	// | +--- WGM02 CTC モード
+	// +------- FOC0A 0(CTC モード)
+	// タイマ／カウンタ 0 割り込みマスクレジスタ
+	TIMSK0 = 0b00000010;
+	// +- OCIE0A コンペアマッチ A 割り込み有効
+}
+void io_init(void) //IO ポート設定
+{
+	DDRD = 0b00000001;
+	// +----- PD0 を出力に設定
+	PORTD = 0b00000001;
+	// +----- PD0 に 1 を出力（動作テスト）
+}
+```
+
+8分周にすると
+8×0.05 = 0.4
+
+0.4×50 = 20 
+よって20μs
+
+
+
+2. 同様に 30us 毎に H,L を繰り返すように変更しなさい。
+
+No prescalingは分周1
+
+```c
+#include <asf.h> //ctc.c
+void io_init(void);
+void timer0_ctcmode_init(uint8_t top);
+int main (void)
+{
+	io_init(); //IO ポート設定
+	timer0_ctcmode_init( 75 ); //タイマ／カウンタ 0ＣＴＣモード割り込み設定 <==　ここを変更
+	sei(); //割り込み許可
+	while(1); //通常処理
+	return 0;
+}
+ISR(TIMER0_COMPA_vect) //タイマ／カウンタ 0 割り込みサービスルーチン
+{ //TIMER0_COMPA_vect は割り込みベクタ
+	cli(); //多重割り込み禁止
+	PORTD ^= 0b00000001;
+	// +---- PD0 の出力を反転
+	sei(); //割り込み許可
+}
+void timer0_ctcmode_init(uint8_t top) //タイマ／カウンタ 0 ＣＴＣモード割り込み設定
+{
+	// タイマ／カウンタ 0 比較レジスタ A
+	OCR0A = top; //タイマ／カウンタ 0 最大値
+	// タイマ／カウンタ 0 制御レジスタ A
+	TCCR0A = 0b00000010;
+	// || ++ WGM01 WGM00 CTC モード
+	// ++-------COM0A1 COM0A0 OC0A 端子出力 OFF
+	// タイマ／カウンタ 0 制御レジスタ B
+	TCCR0B = 0b00000010;  
+	// | |+++ CS02 CS01 CS00 プリスケーラ 8 分周  
+	// | +--- WGM02 CTC モード
+	// +------- FOC0A 0(CTC モード)
+	// タイマ／カウンタ 0 割り込みマスクレジスタ
+	TIMSK0 = 0b00000010;
+	// +- OCIE0A コンペアマッチ A 割り込み有効
+}
+void io_init(void) //IO ポート設定
+{
+	DDRD = 0b00000001;
+	// +----- PD0 を出力に設定
+	PORTD = 0b00000001;
+	// +----- PD0 に 1 を出力（動作テスト）
+}
+```
+
+
+### 4.4並列処理
+PD0 から 20us 毎、PD1 から 30us 毎に H,L を繰り返す信号を出力するプログラムを作成しなさい。PD0 にはタイマ／カウンタ０を、PD1 にはタイマ／カウンタ１（資料）を用いること。
+```c
+#include <asf.h>
+void io_init(void);
+void timer0_ctcmode_init(uint8_t top);
+void timer1_ctcmode_init(uint16_t top);
+int main (void)
+{
+	io_init(); //IO ポート設定
+	timer0_ctcmode_init( 50 ); //タイマ／カウンタ 0ＣＴＣモード割り込み設定
+	timer1_ctcmode_init( 75 ); //タイマ／カウンタ 1ＣＴＣモード割り込み設定
+	sei(); //割り込み許可
+	while(1); //通常処理
+	return 0;
+}
+ISR(TIMER0_COMPA_vect) // タイマ／カウンタ 0 割り込みサービスルーチン
+{ //TIMER0_COMPA_vect は割り込みベクタ
+	cli();
+	PORTD ^= 0b00000001;
+	sei();
+}
+ISR(TIMER1_COMPA_vect) // タイマ／カウンタ 1 割り込みサービスルーチン
+{ //TIMER1_COMPA_vect は割り込みベクタ
+	cli();
+	PORTD ^= 0b00000010;
+	sei();
+}
+void timer0_ctcmode_init(uint8_t top) // タイマ／カウンタ 0 ＣＴＣモード割り込み設定
+{
+	OCR0A = top;
+	TCCR0A = 0b00000010;
+	TCCR0B = 0b00000010;
+	TIMSK0 = 0b00000010;
+}
+void timer1_ctcmode_init(uint16_t top) // タイマ／カウンタ 1 ＣＴＣモード割り込み設定
+{
+	OCR1A = top;
+	TCCR1A = 0b00000000;
+	TCCR1B = 0b00001010;
+	TIMSK1 = 0b00000010;
+}
+void io_init(void) // IO ポート設定
+{
+	DDRD = 0b00000011;
+	// ++----- PD0,PD1 を出力に設定
+	PORTD = 0b00000011;
+	// ++----- PD0,PD1 に 1 を出力（動作テスト）
+}
+```
+
+資料よりWGM13:0 = 4 or 12
+4にするためには
+WGM13, WGM12, WGM11, WGM10 = 0, 1, 0, 0
+資料より4のときはOCR1Aをtopのレジスタに、12のときICR1をtopのレジスタにする
+8分周にしたいのでCS12, CS11, CS10は 0 1 0
+マスク OCIR1A(TIMSK1の1ビット目)を1にする
+
+### 4.5 delayルーチンとの比較
+4.4 のプログラムを_delay_us()を用いて作成してみよ。（割り込みは用いない。util/delay.hをインクルードせよ。）
+
+```c
+#include <asf.h>
+#define F_CPU 20000000UL
+#include <util/delay.h>
+
+void io_init(void);
+int main (void)
+{
+	int counter_pd0 = 0;
+	int counter_pd1 = 0;
+	io_init(); //IO ポート設定
+	while(1){
+		_delay_us(10);
+		counter_pd0++;
+		counter_pd1++;
+		if(counter_pd0 >= 2){
+			PORTD ^= 0b00000001;
+			counter_pd0 = 0;
+		}
+		if(counter_pd1 >= 3){
+			PORTD ^= 0b00000010;
+			counter_pd1 = 0;
+		}
+	}
+	return 0;
+}
+
+void io_init(void) // IO ポート設定
+{
+	DDRD = 0b00000011;
+	// ++----- PD0,PD1 を出力に設定
+	PORTD = 0b00000011;
+	// ++----- PD0,PD1 に 1 を出力（動作テスト）
+}
+```
+
