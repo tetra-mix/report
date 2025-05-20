@@ -1,0 +1,60 @@
+;
+; DA_Change.asm
+;
+; Created: 2025/05/13 13:47:25
+; Author : r05i42
+;
+
+; 1011
+; 1110
+; 1010
+; 01
+; Replace with your application code
+
+.include "m328Pdef.inc"
+.CSEG
+
+INIT:
+	LDS R18, PRR
+	ANDI R18, (~(1 << 0))
+	STS PRR, R18
+
+	LDS R18, ACSR
+	ANDI R18, (~(1<<6))
+	ANDI R18, (~(1<<7))
+	STS ACSR, R18
+
+	LDS R18, ADCSRB
+	ANDI R18, (~(1<<6))
+	STS ADCSRB, R18
+
+	LDS R18, ADCSRA
+	ORI R18, (1 << 7)
+	STS ADCSRA, R18
+
+	LDS R18, DIDR0
+	ORI R18, (1 << 0)
+	ORI R18, (1 << 1)
+	ORI R18, (1 << 2)
+	ORI R18, (1 << 3)
+	ORI R18, (1 << 4)
+	ORI R18, (1 << 5)
+	STS DIDR0, R18
+	
+	LDS R18, DIDR1
+	ORI R18, (1 << 0)
+	ORI R18, (1 << 1)
+	STS DIDR1, R18
+	
+	LDS R18, 0b00011111
+	OUT DDRB, R18
+START:
+	LDI R18, 0b00000000
+	OUT PORTB, R18
+LOOP:
+	IN R18, ACSR
+	ANDI R18, (1 << 5)
+	BRNE START
+	LDI R17, 0b00011111
+	OUT PORTB, R17
+	RJMP LOOP

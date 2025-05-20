@@ -84,9 +84,9 @@
     >
     > ② 入力端子は＋端子の`AIN0`と－端子の`AIN1`であり、この電圧を比較する。
     >
-    > ③ 比較するには、ACBGを論理値`0`、ACMEを論理値`1`またはADENを論理値`0`にすればよい。
+    > ③ 比較するには、ACBGを論理値`0`、ACMEを論理値`0`またはADENを論理値`1`にすればよい。
     >
-    > ④ 比較結果は`ADC`に出力される。
+    > ④ 比較結果は`ACO`に出力される。
     >
     > ⑤ この図の他、以下のページ、項目を参照する。
     >  `243` ページ `Table 23-1`
@@ -131,7 +131,7 @@
     > 論理値`1`のとき、コンパレータが OFF になる。
     >
     > ⑲ ACBG は`ACSR`レジスタの`6`ビット目である。
-    > 論理値`1`のとき、＋入力端子 AIN０がコンパレータに接続される。
+    > 論理値`0`のとき、＋入力端子 AIN０がコンパレータに接続される。
     >
     > ⑳ ACD は論理値`1`で比較器の電源が OFF になる。
     > 21 ACO には`1~2`クロック分のディレイが発生する。
@@ -140,17 +140,165 @@
     今回の目的で、０に設定するビット、１に設定するビットは次のようになる。
     | レジスタ | アドレス | 0に設定するビット | 1に設定するビット |
     | --- | --- | --- | --- |
-    | PRR | PRADC | 0 |     |
-    | ACSR | ACD, ACBG | 7 | 6 |
-    | ADCSRB | ACME | 6 |     |
-    | ADCSRA | ADEN |   | 7 |
-    | DIDR0 | ADC0~5 |   | 0,1,2,3,4,5 |
-    | DIDR1 | AIN0D, AIN1D |   | 0, 1 |
+    | PRR | 0x64 PRADC | 0  |   |
+    | ACSR | 0x30(0x50) ACD, ACBG | 7, 6 |  |
+    | ADCSRB | 0x7B ACME | 6 |    |
+    | ADCSRA | 0x7A ADEN |   | 7 |
+    | DIDR0 | 0x7E ADC0~5 |   | 0,1,2,3,4,5 |
+    | DIDR1 | 0x7F AIN0D, AIN1D |   | 0, 1 |
     #### 8.遅延時間、タイミング
 
-    > 比較器の遅延時間(Propagation Delay)を調べる。表 30-1 の DC 特性を参照する。表から2.7Vで` `ns（標準）、4Vで` `ns（標準）である。遅延時間は一般に電圧が高いほど短くなるから、5Vでは` `ns（最大）*と予想する。これは、20MHz動作で` `クロックに相当する。
+    > 比較器の遅延時間(Propagation Delay)を調べる。表 30-1 の DC 特性を参照する。表から2.7Vで`750`ns（標準）、4Vで`500`ns（標準）である。遅延時間は一般に電圧が高いほど短くなるから、5Vでは`480`ns（最大）*と予想する。これは、20MHz動作で`10`クロック(`0.48`us)に相当する。
     >
-    > さらに ACO がセットされるまでに` `クロック必要だから、比較器への入力が安定後、合計` `クロック（` `us）必要であることがわかる。
+    > さらに ACO がセットされるまでに`2`クロック必要だから、比較器への入力が安定後、合計`12`クロック（`0.6`us）必要であることがわかる。
 
     #### 9.プログラミング基礎知識（補足）
     
+    > 22 例えば、 PINB`0x03`番地、PORTB`0x05`番地、DDRB`0x04`番地 PRR`0x64`番地
+    >
+    > 23 IN, OUT命令は`0x00 - 0x3F`番地のアドレスに対して使用
+    >
+    > 24 LDS, STS命令は`0x60 - 0xFF`番地のアドレスに対して使用
+    >
+    > 25 SBI, CBI命令は`0x00 - 0x1F`番地のアドレスに対して使用
+    >
+
+    ### プログラム
+    ```c
+    #include <asf.h> //int.c
+    #define F_CPU 20000000UL
+    #include <util/delay.h>
+
+    void io_init(void);
+
+    int main (void)
+    {
+	    io_init(); //IO ポート設定
+	    PORTB = 0b00000000;
+	    while(1){
+    		if( (ACSR & (1<<5)) !=0){
+	    		PORTB = 0b00010000;
+		    }else{
+		    	PORTB = 0b00000000;
+		    }
+		    _delay_us(0.6);
+	    }
+	    return 0;
+    }
+
+    void io_init(void) //IO ポート設定
+    {
+	    PRR    = PRR & (~(1<<0));
+	    ACSR   = ACSR & (~(1<<6));
+	    ACSR   = ACSR & (~(1<<7));
+	    ADCSRB = ADCSRB & (~(1<<6));
+	    ADCSRA = ADCSRA | (1<<7);
+	    DIDR0  = DIDR0 | (1<<0);
+	    DIDR0  = DIDR0 | (1<<1);
+	    DIDR0  = DIDR0 | (1<<2);
+	    DIDR0  = DIDR0 | (1<<3);
+	    DIDR0  = DIDR0 | (1<<4);
+	    DIDR0  = DIDR0 | (1<<5);
+	    DIDR1  = DIDR1 | (1<<0);
+	    DIDR1  = DIDR1 | (1<<1);
+    
+	    DDRB   = 0b00010000;
+	    return;
+    }
+    ```
+
+    ### 波形
+    <img src="2.bmp">
+
+## 実験3. A/D変換
+1. アセンブリ言語を用いてプログラムを作成せよ。
+
+    ### program
+    ```armasm
+    .include "m328Pdef.inc"
+    .CSEG
+
+    INIT:
+	    LDS R18, PRR
+	    ANDI R18, (~(1 << 0))
+	    STS PRR, R18
+
+	    LDS R18, ACSR
+	    ANDI R18, (~(1<<6))
+	    ANDI R18, (~(1<<7))
+	    STS ACSR, R18
+
+	    LDS R18, ADCSRB
+	    ANDI R18, (~(1<<6))
+	    STS ADCSRB, R18
+
+	    LDS R18, ADCSRA
+	    ORI R18, (1 << 7)
+	    STS ADCSRA, R18
+
+    	LDS R18, DIDR0
+	    ORI R18, (1 << 0)
+	    ORI R18, (1 << 1)
+	    ORI R18, (1 << 2)
+	    ORI R18, (1 << 3)
+	    ORI R18, (1 << 4)
+	    ORI R18, (1 << 5)
+	    STS DIDR0, R18
+	
+    	LDS R18, DIDR1
+	    ORI R18, (1 << 0)
+	    ORI R18, (1 << 1)
+	    STS DIDR1, R18
+	
+	    LDS R18, 0b00011111
+	    OUT DDRB, R18
+    START:
+	    ;全体の回数を保存するレジスタ
+	    LDI R20, 4
+	    ;ビットの桁数を保存するレジスタ
+	    LDI R21, 0b00001000
+	    ;出力する状態を保存するレジスタ
+	    LDI R22, 0b00000000
+	    OUT PORTB, R17
+    LOOP:
+	    OR R22, R21
+	    LSR R21 
+	    ; 1回目 0b00001000
+	    ; 2回目 0b00000100
+
+	    OUT PORTB, R22
+	
+	    ;待ち処理 3回分 50ns * 3 = 150ns
+	    NOP
+	    NOP
+	    NOP
+
+	    IN R18, ACSR
+	    ANDI R18, (1 << 5)
+	    BRNE DOWN
+
+    	SUBI R20, 1
+	    BRNE LOOP
+	    RJMP FIN
+    DOWN:
+	    MOV R23, R21
+	    COM R23
+	    AND R22, R23
+
+    	;例: 2回目の処理
+	    ; R22 0b000001100;
+	    ; R23 0b111111011;
+	    ;     0b000001000;
+
+    	OUT PORTB, R22
+	    ;待ち処理
+	    NOP
+	    NOP
+	    NOP
+
+	    SUBI R20, 1
+	    BRNE LOOP
+	    RJMP FIN
+    FIN:
+	    RJMP FIN
+    ```
