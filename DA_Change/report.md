@@ -215,9 +215,6 @@
 
     ### program
     ```armasm
-    .include "m328Pdef.inc"
-    .CSEG
-
     INIT:
 	    LDS R18, PRR
 	    ANDI R18, (~(1 << 0))
@@ -250,36 +247,42 @@
 	    ORI R18, (1 << 1)
 	    STS DIDR1, R18
 	
-	    LDS R18, 0b00011111
+	    LDI R18, 0b00111111
 	    OUT DDRB, R18
+
+		LDI R18, 0b00111111
+		OUT DDRD, R18
+
     START:
 	    ;全体の回数を保存するレジスタ
 	    LDI R20, 4
 	    ;ビットの桁数を保存するレジスタ
-	    LDI R21, 0b00001000
+	    LDI R21, 0b00010000
 	    ;出力する状態を保存するレジスタ
 	    LDI R22, 0b00000000
-	    OUT PORTB, R17
+	    OUT PORTB, R22
+		RCALL DELAY_15CLOCK
     LOOP:
-	    OR R22, R21
-	    LSR R21 
+	    LSR R21
+		OR R22, R21
+		
 	    ; 1回目 0b00001000
 	    ; 2回目 0b00000100
 
 	    OUT PORTB, R22
-	
 	    ;待ち処理 3回分 50ns * 3 = 150ns
-	    NOP
-	    NOP
-	    NOP
+	    RCALL DELAY_15CLOCK
+	
 
 	    IN R18, ACSR
 	    ANDI R18, (1 << 5)
-	    BRNE DOWN
 
-    	SUBI R20, 1
-	    BRNE LOOP
-	    RJMP FIN
+		OUT PORTD, R18
+
+	    BRNE DOWN
+		SUBI R20, 1
+		BRNE LOOP
+	    RJMP START
     DOWN:
 	    MOV R23, R21
 	    COM R23
@@ -289,16 +292,26 @@
 	    ; R22 0b000001100;
 	    ; R23 0b111111011;
 	    ;     0b000001000;
+		;待ち処理
 
-    	OUT PORTB, R22
-	    ;待ち処理
-	    NOP
-	    NOP
-	    NOP
+		ORI R22, (1 << 5)
+		OUT PORTB, R22
+		
+	    RCALL DELAY_15CLOCK
 
 	    SUBI R20, 1
 	    BRNE LOOP
-	    RJMP FIN
-    FIN:
-	    RJMP FIN
+	    RJMP START
+
+	DELAY_15CLOCK:
+		NOP
+		NOP
+		NOP
+		NOP
+		NOP
+		NOP
+		NOP
+		NOP
+		RET ; +4
+		;RCALL +3
     ```

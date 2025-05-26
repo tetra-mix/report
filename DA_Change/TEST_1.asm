@@ -32,14 +32,11 @@ INIT:
 	
 	    LDI R18, 0b00111111
 	    OUT DDRB, R18
-    START:
-		NOP
-		NOP
-		NOP
-		NOP
-		NOP
-		NOP
 
+		LDI R18, 0b00111111
+		OUT DDRD, R18
+
+    START:
 	    ;全体の回数を保存するレジスタ
 	    LDI R20, 4
 	    ;ビットの桁数を保存するレジスタ
@@ -47,6 +44,7 @@ INIT:
 	    ;出力する状態を保存するレジスタ
 	    LDI R22, 0b00000000
 	    OUT PORTB, R22
+		RCALL T100US
     LOOP:
 	    LSR R21
 		OR R22, R21
@@ -55,14 +53,15 @@ INIT:
 	    ; 2回目 0b00000100
 
 	    OUT PORTB, R22
-	
 	    ;待ち処理 3回分 50ns * 3 = 150ns
-	    NOP
-	    NOP
-	    NOP
+	    RCALL T100US
+	
 
 	    IN R18, ACSR
 	    ANDI R18, (1 << 5)
+
+		OUT PORTD, R18
+
 	    BRNE DOWN
 		SUBI R20, 1
 		BRNE LOOP
@@ -77,10 +76,25 @@ INIT:
 	    ; R23 0b111111011;
 	    ;     0b000001000;
 		;待ち処理
-	    NOP
-	    NOP
-	    NOP
+
+		ORI R22, (1 << 5)
+		OUT PORTB, R22
+		
+	    RCALL T100US
 
 	    SUBI R20, 1
 	    BRNE LOOP
 	    RJMP START
+
+	T100US:
+		LDI R17, 249
+	_TUS:
+		NOP
+		NOP
+		NOP
+		NOP
+		NOP
+		SUBI R17, 1
+		BRNE _TUS
+		NOP
+		RET
