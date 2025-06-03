@@ -27,7 +27,7 @@ enum
 	LEADER_HIGH,
 	START_READING
 } State,
-	NEXT_State;
+NEXT_State;
 
 int main(void)
 {
@@ -35,7 +35,7 @@ int main(void)
 	start();   // 受信スタート
 	sei();
 	while (1)
-		;
+	;
 	return 0;
 }
 
@@ -59,14 +59,14 @@ ISR(INT1_vect) // 外部割り込みサブルーチン
 	State = NEXT_State; // ステート更新
 	switch (State)
 	{
-	case LEADER_LOW:
+		case LEADER_LOW:
 		TCNT0 = 0;					   // タイムカウンタリセット
 		timer0_ctcmode_init(TIME_OUT); // タイムアウト設定（タイマ／カウンタ０）
 		TIMSK0 = 0b00000010;		   // タイムアウト有効（コンペアマッチ A 割り込み）
 		EICRA = 0b00001100;			   // 外部割り込みを立ち上がりにセット
 		NEXT_State = LEADER_HIGH;	   // 次の状態へ
 		break;
-	case LEADER_HIGH:
+		case LEADER_HIGH:
 		intv = TCNT0; // タイムカウンタ読み込み
 		if (LEADER_LMIN <= intv && intv <= LEADER_LMAX)
 		{								// L レベルが範囲内なら
@@ -75,9 +75,9 @@ ISR(INT1_vect) // 外部割り込みサブルーチン
 			NEXT_State = START_READING; // 次の状態へ
 		}
 		else // 範囲外ならリスタート
-			start();
+		start();
 		break;
-	case START_READING:
+		case START_READING:
 		intv = TCNT0; // タイムカウンタ読み込み
 		if (LEADER_HMIN <= intv && intv <= LEADER_HMAX)
 		{						  // H レベルが範囲内なら
@@ -87,7 +87,7 @@ ISR(INT1_vect) // 外部割り込みサブルーチン
 			start();
 		}
 		else // 範囲外ならリスタート
-			start();
+		start();
 		break;
 	}
 	return;
@@ -95,9 +95,9 @@ ISR(INT1_vect) // 外部割り込みサブルーチン
 
 void io_init(void) // I/O ポート設定
 {
-	DDRB = 0b00100000;	// LED(PB5)を出力に設定
+	DDRB = 0b00100000;  // LED(PB5)を出力に設定
 	PORTB = 0b00000000; // LED 消灯
-	DDRD = 0b00000000;	// 外部割り込み（INT1）を入力に設定
+	DDRD = 0b00000000;  // 外部割り込み（INT1）を入力に設定
 	// PD2,INT0が共通
 	// PD3,INT1が共有
 	return;
@@ -116,10 +116,10 @@ void timer0_ctcmode_init(uint8_t top)
 {
 	OCR0A = top;		 // タイマ／カウンタ 0 最大値
 	TCCR0A = 0b00000010; // CTC モード
-	TCCR0B = 0b00000101; // CTC モード、プリスケーラ設定1024分周
-	// 以下のように設定
-	// 0ビット目 CS00 1
-	// 1ビット目 CS01 0
-	// 2ビット目 CS02 1
+	TCCR0B = 0b00000101;			 // CTC モード、プリスケーラ設定1024分周
+	//以下のように設定
+	//0ビット目 CS00 1
+	//1ビット目 CS01 0
+	//2ビット目 CS02 1
 	return;
 }
