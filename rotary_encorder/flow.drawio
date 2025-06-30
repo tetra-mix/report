@@ -1,0 +1,169 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36" version="27.1.6">
+  <diagram name="ページ1" id="zpUxl25FHofYy_UvwVe3">
+    <mxGraphModel dx="1301" dy="1001" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-27" value="チャタリング除去" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="450" y="20" width="188" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-28" value="回転検出" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="119" y="147" width="124" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-29" value="リスタート" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="20" y="273" width="140" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-30" value="カウント" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="210" y="273" width="124" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-31" value="カウンタクリア" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="186" y="400" width="172" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-32" value="フェーズ2" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="205" y="504" width="132" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-33" value="回転検出" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="482" y="147" width="124" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-34" value="リスタート" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="384" y="273" width="140" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-35" value="カウント" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="573" y="273" width="124" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-36" value="カウンタクリア" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="549" y="400" width="172" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-37" value="フェーズ3" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="569" y="504" width="132" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-38" value="回転検出" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="846" y="147" width="124" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-39" value="リスタート" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="747" y="273" width="140" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-40" value="カウント" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="937" y="273" width="124" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-41" value="点灯" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="862" y="400" width="92" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-42" value="1秒まつ" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="849" y="504" width="118" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-43" value="消灯" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="862" y="608" width="92" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-44" value="リスタート" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1012" y="400" width="140" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-45" value="フェーズ1" style="curved=1;startArrow=none;endArrow=block;exitX=0;exitY=0.8;entryX=0.5;entryY=-0.01;rounded=0;" edge="1" parent="1" source="jb2956fyOvQjMBUYvYKZ-27" target="jb2956fyOvQjMBUYvYKZ-28">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="181" y="110" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-46" value="フェーズ2" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=-0.01;rounded=0;" edge="1" parent="1" source="jb2956fyOvQjMBUYvYKZ-27" target="jb2956fyOvQjMBUYvYKZ-33">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-47" value="フェーズ3" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.8;entryX=0.5;entryY=-0.01;rounded=0;" edge="1" parent="1" source="jb2956fyOvQjMBUYvYKZ-27" target="jb2956fyOvQjMBUYvYKZ-38">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="908" y="110" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-48" value="左回転" style="curved=1;dashed=1;dashPattern=2 3;startArrow=none;endArrow=block;exitX=0.18;exitY=0.99;entryX=0.5;entryY=0;rounded=0;" edge="1" parent="1" source="jb2956fyOvQjMBUYvYKZ-28" target="jb2956fyOvQjMBUYvYKZ-29">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="90" y="237" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-49" value="右回転" style="curved=1;startArrow=none;endArrow=block;exitX=0.81;exitY=0.99;entryX=0.5;entryY=0;rounded=0;" edge="1" parent="1" source="jb2956fyOvQjMBUYvYKZ-28" target="jb2956fyOvQjMBUYvYKZ-30">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="272" y="237" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-50" value="3回目" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=-0.01;rounded=0;" edge="1" parent="1" source="jb2956fyOvQjMBUYvYKZ-30" target="jb2956fyOvQjMBUYvYKZ-31">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-51" value="" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=0.99;entryX=0.5;entryY=-0.01;rounded=0;" edge="1" parent="1" source="jb2956fyOvQjMBUYvYKZ-31" target="jb2956fyOvQjMBUYvYKZ-32">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-52" value="右回転" style="curved=1;dashed=1;dashPattern=2 3;startArrow=none;endArrow=block;exitX=0.19;exitY=0.99;entryX=0.49;entryY=0;rounded=0;" edge="1" parent="1" source="jb2956fyOvQjMBUYvYKZ-33" target="jb2956fyOvQjMBUYvYKZ-34">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="453" y="237" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-53" value="左回転" style="curved=1;startArrow=none;endArrow=block;exitX=0.81;exitY=0.99;entryX=0.5;entryY=0;rounded=0;" edge="1" parent="1" source="jb2956fyOvQjMBUYvYKZ-33" target="jb2956fyOvQjMBUYvYKZ-35">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="635" y="237" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-54" value="2回目" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=-0.01;rounded=0;" edge="1" parent="1" source="jb2956fyOvQjMBUYvYKZ-35" target="jb2956fyOvQjMBUYvYKZ-36">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-55" value="" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=0.99;entryX=0.5;entryY=-0.01;rounded=0;" edge="1" parent="1" source="jb2956fyOvQjMBUYvYKZ-36" target="jb2956fyOvQjMBUYvYKZ-37">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-56" value="左回転" style="curved=1;dashed=1;dashPattern=2 3;startArrow=none;endArrow=block;exitX=0.18;exitY=0.99;entryX=0.5;entryY=0;rounded=0;" edge="1" parent="1" source="jb2956fyOvQjMBUYvYKZ-38" target="jb2956fyOvQjMBUYvYKZ-39">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="817" y="237" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-57" value="右回転" style="curved=1;startArrow=none;endArrow=block;exitX=0.81;exitY=0.99;entryX=0.5;entryY=0;rounded=0;" edge="1" parent="1" source="jb2956fyOvQjMBUYvYKZ-38" target="jb2956fyOvQjMBUYvYKZ-40">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="999" y="237" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-58" value="2回目" style="curved=1;startArrow=none;endArrow=block;exitX=0.18;exitY=1;entryX=0.5;entryY=-0.01;rounded=0;" edge="1" parent="1" source="jb2956fyOvQjMBUYvYKZ-40" target="jb2956fyOvQjMBUYvYKZ-41">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="908" y="363" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-59" value="回しすぎ" style="curved=1;startArrow=none;endArrow=block;exitX=0.78;exitY=1;entryX=0.5;entryY=-0.01;rounded=0;" edge="1" parent="1" source="jb2956fyOvQjMBUYvYKZ-40" target="jb2956fyOvQjMBUYvYKZ-44">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1081" y="363" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-60" value="" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=0.99;entryX=0.5;entryY=-0.01;rounded=0;" edge="1" parent="1" source="jb2956fyOvQjMBUYvYKZ-41" target="jb2956fyOvQjMBUYvYKZ-42">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jb2956fyOvQjMBUYvYKZ-61" value="" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=0.99;entryX=0.5;entryY=-0.01;rounded=0;" edge="1" parent="1" source="jb2956fyOvQjMBUYvYKZ-42" target="jb2956fyOvQjMBUYvYKZ-43">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
