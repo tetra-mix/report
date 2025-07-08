@@ -81,24 +81,25 @@
 | **Ethernet ヘッダ** | |
 | 宛先 MAC          | 08:00:27:aa:f7:3f |
 | 送信元 MAC        | 08:00:27:84:b8:a7 |
-| EtherType         | 0x0800 |
+| EtherType         | IPv4 (0x0800) |
 | **IP ヘッダ** | |
-| Version / IHL     | 0x45 |
-| DSCP / ECN        | 0x00 |
-| Total Length      | 0x0054 |
-| Identification    | 0x2ef8 |
-| Flags / Frag Offset | 0x4000 |
-| TTL               | 0x40 |
-| Protocol          | 0x01 |
-| Header Checksum   | 0x1255 |
 | 送信元 IP         | 192.168.100.10 |
 | 宛先 IP           | 192.168.20.1 |
+| Total Length      | 84 |
+| Identification    | 4569(0x11d9) |
+| Flags | Don't fragment (0x4000) |
+| Frag Offset | 0 |
+| TTL               | 64 (0x40) |
+| Protocol          | ICMP (0x01) |
+| Header Checksum   | 0x2f74 |
 | **ICMP ヘッダ** | |
-| Type              | 0x08 |
-| Code              | 0x00 |
-| Checksum          | 0xc214 |
-| Identifier        | 0x000b |
-| Sequence Number   | 0x0000 |
+| Type              | 8 |
+| Code              | 0 |
+| Checksum          | 0x6600 |
+| Identifier (BE)   | 5 |
+| Identifier (BE)   | 1280 |
+| Sequence Number (LE)  | 1 |
+| Sequence Number (LE)  | 256 |
 
 ## 応答
 <img src="down-local.png">
@@ -108,24 +109,26 @@
 | **Ethernet ヘッダ** | |
 | 宛先 MAC          | 08:00:27:84:b8:a7 |
 | 送信元 MAC        | 08:00:27:aa:f7:3f |
-| EtherType         | 0x0800 |
+| EtherType         | IPv4(0x0800) |
 | **IPv4 ヘッダ** | |
-| Version / IHL     | 0x45 |
-| DSCP / ECN        | 0x00 |
-| Total Length      | 0x0054 |
-| Identification    | 0x599c |
-| Flags / Frag Offset | 0x0000 |
-| TTL               | 0x40 |
-| Protocol          | 0x01 |
-| Header Checksum   | 0x27b1 |
 | 送信元 IP         | 192.168.20.1 |
 | 宛先 IP           | 192.168.100.10 |
+| Total Length      | 84 |
+| Identification    | 37202(0x9152) |
+| Flags | 0x0000 |
+| Fragment offset | 0 |
+| TTL               | 64(0x40) |
+| Protocol          | ICMP(0x01) |
+| Header Checksum   | 0x6e00 |
 | **ICMP ヘッダ** | |
-| Type              | 0x00 |
-| Code              | 0x00 |
-| Checksum          | 0x9943 |
-| Identifier        | 0x000d |
-| Sequence Number   | 0x0001 |
+| Type              | 0 |
+| Code              | 0 |
+| Checksum          | 0x6e00 |
+| Identifier (BE)   | 5 |
+| Identifier (BE)   | 1280 |
+| Sequence Number (LE)  | 1 |
+| Sequence Number (LE)  | 256 |
+
 
 
 #### ICMPヘッダの構造
@@ -148,67 +151,15 @@
 1. キャプチャするNICの位置によって、ICMPパケット(IPフレーム)の内容がどのように変わっているか確認し、ex1-2で何が行われているか(実験1でex1-2に対してどのような設定を行ったのかを考えて)考察する。
 
 ## 要求
-<img src="up-global.png">
 
+### enp0s8
+<img src="enp0s8.png">
 
-| フィールド | 値 |
-|-----------|--------------------------------|
-| **Ethernet ヘッダ** | |
-| 宛先 MAC          | 08:00:27:aa:f7:3f |
-| 送信元 MAC        | 08:00:27:84:b8:a7 |
-| EtherType         | 0x0800 |
-| **IPv4 ヘッダ** | |
-| Version / IHL     | 0x45 |
-| DSCP / ECN        | 0x00 |
-| Total Length      | 0x0054 |
-| Identification    | 0x1747 |
-| Flags / Frag Offset | 0x4000 |
-| TTL               | 0x40 |
-| Protocol          | 0x01 |
-| Header Checksum   | 0x4385 |
-| 送信元 IP         | 192.168.100.10 |
-| 宛先 IP           | 172.16.15.26 |
-| **ICMP ヘッダ** | |
-| Type              | 0x08 |
-| Code              | 0x00 |
-| Checksum          | 0x6986 |
-| Identifier        | 0x000e |
-| Sequence Number   | 0x0001 |
-
-
-## 応答
-<img src="down-global.png">
-
-| フィールド | 値 |
-|-----------|--------------------------------|
-| **Ethernet ヘッダ** | |
-| 宛先 MAC          | 08:00:27:84:b8:a7 |
-| 送信元 MAC        | 08:00:27:aa:f7:3f |
-| EtherType         | 0x0800 |
-| **IPv4 ヘッダ** | |
-| Version / IHL     | 0x45 |
-| DSCP / ECN        | 0x00 |
-| Total Length      | 0x0054 |
-| Identification    | 0x02ea |
-| Flags / Frag Offset | 0x0000 |
-| TTL               | 0x3c |
-| Protocol          | 0x01 |
-| Header Checksum   | 0x9be2 |
-| 送信元 IP         | 172.16.15.26 |
-| 宛先 IP           | 192.168.100.10 |
-| **ICMP ヘッダ** | |
-| Type              | 0x00 |
-| Code              | 0x00 |
-| Checksum          | 0x7186 |
-| Identifier        | 0x000e |
-| Sequence Number   | 0x0001 |
-
+### enp0s9
+<img src="enp0s9.png">
 
 ## 考察
-この実験ではexp1-2でIPマスカレードする設定を追加したため、exp1-1のパケットがexp1-2でアドレス変換されているはずである。しかし、そのような変換は見られなかった、これはIPアドレスが変換される前のパケットを見ているからだと考えられる。
-
-また、先ほどと異なっている部分を考えると、TTLが1つ下がっていることがわかる。これは外部のネットワークに出る時にルーター(exp1-2)が1つ値を減らしたからだと考えられる。
-
+この実験ではexp1-2でIPマスカレードする設定を追加したため、exp1-1のパケットがexp1-2でアドレス変換されているはずである。enp0s8で見ると、192.168.100.10から172.16.15.26に送られているが、enp0s9で見ると、10.0.4.15から172.16.15.26に送られている。そのため、正しくIPアドレスが変換されていると考えられる。
 
 ## 今回の実験で理解できたこと、できなかったこと
 * インターネット層における、IPプロトコルを使ったIPルーティングについて理解し、どのようにIPパケットを伝送しているかは理解できたと思う。
