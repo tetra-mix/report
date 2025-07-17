@@ -41,7 +41,7 @@
 ### プログラム変更差分
 ```shell
 diff --git a/client/client.py b/client/client.py
-index 440ff22..836e0a3 100644
+index 440ff22..d26ecab 100644
 --- a/client/client.py
 +++ b/client/client.py
 @@ -9,6 +9,9 @@ class EchoClient():
@@ -52,21 +52,19 @@ index 440ff22..836e0a3 100644
 +        self.host = host
 +
      def send(self, msg):
-         server_address = (self.host, self.port) # サーバのホスト名(IPアドレス)と 
-ポート番号
+         server_address = (self.host, self.port) # サーバのホスト名(IPアドレス)とポート番号
 
 @@ -23,11 +26,14 @@ class EchoClient():
  def main():
      import argparse # コマンドラインパーサを導入
      parser = argparse.ArgumentParser(description='Echo client.')
 +    
-     parser.add_argument('msg', metavar='messege', help='message to server') # コ 
-マンドライン引数の文字列をmsgという変数に格納
+     parser.add_argument('msg', metavar='messege', help='message to server') # コマンドライン引数の文字列をmsgという変数に格納
 +    parser.add_argument('--addr', dest='addr', default='127.0.0.1',help='IP address')
      args = parser.parse_args() # コマンドラインをパースして、解析し、適宜変数に値を入れる
 -    # print(args.msg) # 今回の場合、args.msg にコマンドラインで指定した文字列が格納される
-+    print(args.msg) # 今回の場合、args.msg にコマンドラインで指定した文字列が格納される
-+    print(args.addr)
++    #print(args.msg) # 今回の場合、args.msg にコマンドラインで指定した文字列が格納される
++    #print(args.addr)
 
 -    c = EchoClient()
 +    c = EchoClient(host=args.addr)
@@ -102,6 +100,7 @@ index b19ad04..de0c078 100644
 +    s = EchoServer(host=args.addr)
      s.start()
 +    
+
 
 # エントリーポイント
 ```
@@ -216,7 +215,7 @@ index b19ad04..de0c078 100644
 
 ## 課題3
 
-### プログラムの差分
+### プログラム変更差分
 
 ```shell
 diff --git a/client/client.py b/client/client.py
@@ -335,12 +334,11 @@ index de0c078..24c4af5 100644
 <img src="ex3cap/p55555.png">
 
 ### 考察
-ポートが違う
-
+ポートを違うもので待ち受けると、ポートごとにそれぞれに別に通信することができることがわかる。また、パケットキャプチャを見ると、TCPのプロトコルの情報にポート番号が正しく記録されていることがわかり、サーバーの送り先のポート番号が異なると、クライアント側も違うポート番号を使用してパケットを送信している。
 
 ## 課題4
 
-### 差分プログラム
+### プログラム変更差分
 ```shell
 diff --git a/client/client.py b/client/client.py
 index 9efafe6..5655fe8 100644
@@ -349,7 +347,7 @@ index 9efafe6..5655fe8 100644
 @@ -9,35 +9,31 @@ class EchoClient():
      port = 55556       # サーバのポート番号
      recv_size = 1024   # 受け取るデータの最大サイズ
- 
+
 -    def __init__(self, host=host, port=port):
 -        self.host = host
 +    def __init__(self,port=port):
@@ -395,6 +393,36 @@ index 9efafe6..5655fe8 100644
 
  # エントリーポイント
  if __name__ == '__main__':
+
+
+diff --git a/server/server.py b/server/server.py
+index 24c4af5..de0c078 100644
+--- a/server/server.py
++++ b/server/server.py
+@@ -19,9 +19,8 @@ class EchoServer:
+     port = 55556      # サーバのポート番号
+     recv_size = 1024  # 一回に受信するデータの最大バイト数
+
+-    def __init__(self, host=host, port=port):
++    def __init__(self, host=host):
+         self.host = host
+-        self.port = port
+
+     def start(self):
+         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket: # socket() ソケット作成
+@@ -46,12 +45,12 @@ class EchoServer:
+ def main():
+     import argparse # コマンドラインパーサを導入
+     parser = argparse.ArgumentParser(description='Echo client.')
++
+     parser.add_argument('--addr', dest='addr', default='127.0.0.1',help='IP address')
+-    parser.add_argument('--port', dest='port', default=55556, type=int, help='port number')
+     args = parser.parse_args() # コマンドラインをパースして、解析し、適宜変数に値を入れる
+     #print(args.addr)
+
+-    s = EchoServer(host=args.addr, port=args.port)
++    s = EchoServer(host=args.addr)
+     s.start()
 ```
 
 ### 動作確認の結果
@@ -425,32 +453,25 @@ ABCDEFG
 以上から正しく行ごとに送受信ができてることがわかる。
 
 ### 考察
-
+この課題から、ソケットを生成してからソケットを閉じるまでならいくつパケットを送信しても正しく動作することがわかった。
 
 
 ### git履歴
 
 ```shell
-
-commit a4a243f82bc252e58078db7af2fb0719cf4abd19 (HEAD -> main, tag: release-ex4)
+commit 62e42f33f064a6fbd9f9e789c999530b68584ff9 (HEAD -> main, origin/main, origin/HEAD)
 Author: r05i42 <r05i42@ed.cc.suzuka-ct.ac.jp>
 Date:   Tue Jul 1 17:06:17 2025 +0900
 
     tag: release-ex4
 
-commit 4b044d754b018574bd971854c1009b34a33e1205 (tag: release-ex3, origin/main, origin/HEAD)
+commit 24a72fe280957eca3b1468368dbd249ce17dfa36
 Author: r05i42 <r05i42@ed.cc.suzuka-ct.ac.jp>
 Date:   Tue Jul 1 16:17:19 2025 +0900
 
-    tag: release-ex2
+    tag: release-ex3
 
-commit abe8dec000e9232cca4d54e7402267dec2958b8e
-Author: r05i42 <r05i42@ed.cc.suzuka-ct.ac.jp>
-Date:   Tue Jul 1 14:34:49 2025 +0900
-
-    tag: update
-
-commit 5a443af26026dffab9eb4ef6f0082522d0909f9e
+commit 56a57bac1fc7c1761a2aa3967808a1b8adc80ad9 (tag: release-ex1)
 Author: r05i42 <r05i42@ed.cc.suzuka-ct.ac.jp>
 Date:   Tue Jul 1 13:55:44 2025 +0900
 
@@ -462,3 +483,6 @@ Date:   Mon Jun 30 09:45:55 2025 +0000
 
     Initial commit
 ```
+
+##　今回の実験で理解したこと
+開発するパソコンで行った変更を実際に動作するサーバーに送るには、VS Codeの拡張機能を使うと便利なのが分かった。今までこのような作業をするときは、FTPでプログラムを送るために別のアプリを立ち上げて、同期してみたいなことをしていたのですが、これを使ったらすごく開発効率が上がると思います。gitの機能としてlogやtagがあることとそれの使い方がよくわかりました。特にプログラムを変更していくような実験や課題があるときは、diffで差分を見れるのは便利だと思います。わざわざbranchを作って管理しなくてもtagで状態を戻せたりするのもすごく便利で今後使っていきたいです。サーバーとクライアントのTCPパケット通信がどのように行われているのか理解することができました。
